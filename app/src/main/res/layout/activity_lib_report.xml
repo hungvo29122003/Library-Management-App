@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Lib_reportActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Chọn Loại Báo Cáo -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn Loại Báo Cáo"
+            style="@style/TextAppearance.AppCompat.Medium" />
+
+        <Spinner
+            android:id="@+id/spinner_loaiBaoCao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Ngày Lập Báo Cáo -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ngày Lập"
+            style="@style/TextAppearance.AppCompat.Medium" />
+
+        <EditText
+            android:id="@+id/edt_ngayLap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date" />
+
+        <!-- Nội Dung Thống Kê -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nội Dung Thống Kê"
+            style="@style/TextAppearance.AppCompat.Medium" />
+
+        <EditText
+            android:id="@+id/edt_noiDung"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:hint="Nhập nội dung thống kê..." />
+
+        <!-- Nút Tạo Báo Cáo -->
+        <Button
+            android:id="@+id/btn_taoBaoCao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tạo Báo Cáo" />
+
+        <!-- Danh sách báo cáo đã tạo -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh Sách Báo Cáo"
+            style="@style/TextAppearance.AppCompat.Medium" />
+
+        <ListView
+            android:id="@+id/list_baoCao"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            tools:listitem="@layout/activity_item_bao_cao" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

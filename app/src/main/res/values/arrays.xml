@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <string-array name="book_status_array">
+            <item>Mới</item>
+            <item>Cũ</item>
+            <item>Reserved</item>
+            <item>Lost</item>
+        </string-array>
+
+</resources>

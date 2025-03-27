@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Return_booksActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Chọn Độc Giả -->
+        <TextView
+            android:text="Tên Độc Giả"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
+        <EditText
+            android:id="@+id/edt_tenDocGia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:focusable="false"/>
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_docGia"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+        <!-- Hiển thị Mã Độc Giả -->
+        <TextView
+            android:text="Mã Độc Giả"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_maDocGia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:focusable="false"/>
+
+        <!-- Chọn Phiếu Mượn -->
+        <TextView
+            android:text="Chọn Phiếu Mượn"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_maPhieuMuon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:focusable="false"/>
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_phieuMuon"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+        <!-- Danh sách sách đã mượn -->
+        <TextView
+            android:text="Sách Đã Mượn"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <ListView
+            android:id="@+id/list_sachMuon"
+            android:layout_width="match_parent"
+            tools:listitem="@layout/activity_item_sach_tra"
+            android:layout_height="200dp"/>
+
+        <!-- Chọn Tình Trạng Sách -->
+        <TextView
+            android:text="Chọn Trạng Thái Sách"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <Spinner
+            android:id="@+id/spinner_trangThai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Tiền Phạt (Nếu Có) -->
+        <TextView
+            android:text="Tiền Phạt"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <EditText
+            android:id="@+id/edt_tienPhat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="Nhập số tiền nếu có"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:text="Tổng tiền"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_tongTien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:focusable="false"
+            android:hint="Tổng số "/>
+
+        <!-- Nút Xác Nhận Trả -->
+        <Button
+            android:id="@+id/btn_xacNhanTra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xác Nhận Trả"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

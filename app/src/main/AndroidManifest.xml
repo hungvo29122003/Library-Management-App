@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LibraryManagement"
+        tools:ignore="ExtraText">
+        <activity
+            android:name=".EditBookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".item_search_book"
+            android:exported="false" />
+        <activity
+            android:name=".UnlockReaderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LockReaderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BookDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".item_sach_tra"
+            android:exported="false" />
+        <activity
+            android:name=".item_chi_tiet_sach"
+            android:exported="false" />
+        <activity
+            android:name=".item_bao_cao"
+            android:exported="false" />
+        <activity
+            android:name=".Details_ReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Lib_reportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".item_phieu_tra"
+            android:exported="false" />
+        <activity
+            android:name=".Details_ReceiptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Return_booksActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Rcv_receiptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".receiptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".librarian_mainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Add_PersonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Add_BookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Rcv_PersonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RcvBookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainAdminister"
+            android:exported="false" />
+        <activity android:name=".a" />
+        <activity android:name=".a" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

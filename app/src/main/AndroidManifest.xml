@@ -80,8 +80,6 @@
         <activity
             android:name=".MainAdminister"
             android:exported="false" />
-        <activity android:name=".a" />
-        <activity android:name=".a" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />

@@ -45,7 +45,7 @@ class BookAdapter(
 
         // Hiển thị hình ảnh từ URL bằng Glide
         if (!book.image.isNullOrEmpty()) {
-            val imageUrl = "http://10.11.88.167:3000${book.image}"
+            val imageUrl = "http://192.168.110.93:3000${book.image}"
             Log.d("BookAdapter", "Loading image from URL: $imageUrl") // Log URL để kiểm tra
             Glide.with(holder.itemView.context)
                 .load(imageUrl)

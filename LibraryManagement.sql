@@ -1,14 +1,18 @@
+-- Tạo database
 CREATE DATABASE LibraryManagement;
 USE LibraryManagement;
 
+-- Bảng tài khoản
 CREATE TABLE TaiKhoan (
    maTaiKhoan INT AUTO_INCREMENT PRIMARY KEY,
-   tenDangNhap VARCHAR(255) NOT NULL,
+   tenDangNhap VARCHAR(255) NOT NULL UNIQUE,
    matKhau VARCHAR(255) NOT NULL,
    email VARCHAR(255) UNIQUE NOT NULL,
-   vaiTro ENUM('QuanLy', 'ThuThu', 'DocGia') NOT NULL DEFAULT 'DocGia'
+   vaiTro ENUM('QuanLy', 'ThuThu', 'DocGia') NOT NULL DEFAULT 'DocGia',
+   trangThai ENUM('Active', 'Inactive') DEFAULT 'Active'
 );
 
+-- Bảng nhân sự
 CREATE TABLE QuanLy (
     maQuanLy INT AUTO_INCREMENT PRIMARY KEY,
     maTaiKhoan INT UNIQUE,
@@ -16,7 +20,6 @@ CREATE TABLE QuanLy (
     cccd CHAR(12) UNIQUE NOT NULL,
     diaChi VARCHAR(255) CHARACTER SET UTF8MB4,
     sdt VARCHAR(15),
-    email VARCHAR(255) UNIQUE NOT NULL,
     namSinh DATE,
     avatar VARCHAR(255),
     FOREIGN KEY (maTaiKhoan) REFERENCES TaiKhoan(maTaiKhoan) ON DELETE CASCADE
@@ -29,7 +32,6 @@ CREATE TABLE ThuThu (
     cccd CHAR(12) UNIQUE NOT NULL,
     diaChi VARCHAR(255) CHARACTER SET UTF8MB4,
     sdt VARCHAR(15),
-    email VARCHAR(255) UNIQUE NOT NULL,
     namSinh DATE,
     avatar VARCHAR(255),
     FOREIGN KEY (maTaiKhoan) REFERENCES TaiKhoan(maTaiKhoan) ON DELETE CASCADE
@@ -40,15 +42,16 @@ CREATE TABLE DocGia (
     maTaiKhoan INT UNIQUE,
     tenDocGia VARCHAR(255) CHARACTER SET UTF8MB4 NOT NULL,
     cccd CHAR(12) UNIQUE NOT NULL,
+    diaChi VARCHAR(255) CHARACTER SET UTF8MB4,
     namSinh DATE,
     sdt VARCHAR(15),
-    email VARCHAR(255) UNIQUE NOT NULL,
     ngayGiaNhap DATE,
     avatar VARCHAR(255),
     lockAccount BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (maTaiKhoan) REFERENCES TaiKhoan(maTaiKhoan) ON DELETE CASCADE
 );
 
+-- Bảng danh mục sách
 CREATE TABLE TheLoai (
     maTheLoai INT AUTO_INCREMENT PRIMARY KEY,
     tenTheLoai VARCHAR(255) CHARACTER SET UTF8MB4 NOT NULL
@@ -73,6 +76,7 @@ CREATE TABLE Sach (
     ngayXuatBan DATE,
     maTrangThai INT,
     soLuong INT DEFAULT 1,
+    gia DECIMAL(10,2),
     maKhu INT,
     image VARCHAR(255),
     FOREIGN KEY (maTheLoai) REFERENCES TheLoai(maTheLoai) ON DELETE CASCADE,
@@ -80,56 +84,47 @@ CREATE TABLE Sach (
     FOREIGN KEY (maKhu) REFERENCES Khu(maKhu) ON DELETE SET NULL
 );
 
-CREATE TABLE BaoCaoThongKe (
-    maBaoCao INT AUTO_INCREMENT PRIMARY KEY,
-    tenBaoCao VARCHAR(255) CHARACTER SET UTF8MB4 NOT NULL,
-    maQuanLy INT,
-    noiDungThongKe TEXT CHARACTER SET UTF8MB4,
-    ngayLap DATE,
-    FOREIGN KEY (maQuanLy) REFERENCES QuanLy(maQuanLy) ON DELETE CASCADE
-);
-
+-- Bảng phiếu mượn/trả
 CREATE TABLE PhieuMuon (
-    maPhieu INT AUTO_INCREMENT PRIMARY KEY,
+    maPhieuMuon INT AUTO_INCREMENT PRIMARY KEY,
     maThuThu INT,
     maDocGia INT,
     ngayMuon DATE NOT NULL,
     FOREIGN KEY (maThuThu) REFERENCES ThuThu(maThuThu) ON DELETE CASCADE,
     FOREIGN KEY (maDocGia) REFERENCES DocGia(maDocGia) ON DELETE CASCADE
 );
+
 CREATE TABLE PhieuTra (
-    maPhieu INT AUTO_INCREMENT PRIMARY KEY,
-    maPhieuMuon INT UNIQUE, -- Phiếu Trả gắn với một Phiếu Mượn
+    maPhieuTra INT AUTO_INCREMENT PRIMARY KEY,
+    maPhieuMuon INT UNIQUE,
     maThuThu INT,
-    maDocGia INT,
     ngayTra DATE NOT NULL,
-    tongTienPhat DECIMAL(10,2) DEFAULT 0, -- Tổng tiền phạt nếu có
-    FOREIGN KEY (maPhieuMuon) REFERENCES PhieuMuon(maPhieu) ON DELETE CASCADE,
-    FOREIGN KEY (maThuThu) REFERENCES ThuThu(maThuThu) ON DELETE CASCADE,
-    FOREIGN KEY (maDocGia) REFERENCES DocGia(maDocGia) ON DELETE CASCADE
+    tongTien DECIMAL(10,2) DEFAULT 0,
+    FOREIGN KEY (maPhieuMuon) REFERENCES PhieuMuon(maPhieuMuon) ON DELETE CASCADE,
+    FOREIGN KEY (maThuThu) REFERENCES ThuThu(maThuThu) ON DELETE CASCADE
 );
 
 CREATE TABLE ChiTietPhieuMuon (
     maChiTiet INT AUTO_INCREMENT PRIMARY KEY,
-    maPhieu INT,
+    maPhieuMuon INT,
     maSach INT,
     soLuong INT DEFAULT 1,
-    FOREIGN KEY (maPhieu) REFERENCES PhieuMuon(maPhieu) ON DELETE CASCADE,
+    FOREIGN KEY (maPhieuMuon) REFERENCES PhieuMuon(maPhieuMuon) ON DELETE CASCADE,
     FOREIGN KEY (maSach) REFERENCES Sach(maSach) ON DELETE CASCADE
 );
-
 
 CREATE TABLE ChiTietPhieuTra (
     maChiTiet INT AUTO_INCREMENT PRIMARY KEY,
-    maPhieu INT,
+    maPhieuTra INT,
     maSach INT,
     soLuong INT DEFAULT 1,
-    trangThaiSach ENUM('BinhThuong', 'MatSach', 'Hong', 'TreHan') DEFAULT 'BinhThuong',
-    phiPhat DECIMAL(10,2) DEFAULT 0, -- Phí phạt nếu có
-    FOREIGN KEY (maPhieu) REFERENCES PhieuTra(maPhieu) ON DELETE CASCADE,
+    trangThaiSach ENUM('Bình thường', 'Mất sách', 'Hỏng', 'Trể hạn') DEFAULT 'Bình thường',
+    phiPhat DECIMAL(10,2) DEFAULT 0,
+    FOREIGN KEY (maPhieuTra) REFERENCES PhieuTra(maPhieuTra) ON DELETE CASCADE,
     FOREIGN KEY (maSach) REFERENCES Sach(maSach) ON DELETE CASCADE
 );
 
+-- Bảng vi phạm
 CREATE TABLE ViPham (
     maViPham INT AUTO_INCREMENT PRIMARY KEY,
     maDocGia INT,
@@ -138,80 +133,111 @@ CREATE TABLE ViPham (
     FOREIGN KEY (maDocGia) REFERENCES DocGia(maDocGia) ON DELETE CASCADE
 );
 
+-- Bảng báo cáo thống kê
+CREATE TABLE BaoCaoThongKe (
+    maBaoCao INT AUTO_INCREMENT PRIMARY KEY,
+    tenBaoCao VARCHAR(255) CHARACTER SET UTF8MB4 NOT NULL,
+    maQuanLy INT,
+    loaiBaoCao ENUM('SachMuon', 'SachTra', 'ViPham', 'DoanhThu', 'Khac') NOT NULL DEFAULT 'Khac',
+    ngayBatDau DATE NOT NULL,
+    ngayKetThuc DATE NOT NULL,
+    soSachMuon INT DEFAULT 0,
+    soSachTra INT DEFAULT 0,
+    soSachHong INT DEFAULT 0,
+    tongTienPhat DECIMAL(10,2) DEFAULT 0,
+    FOREIGN KEY (maQuanLy) REFERENCES QuanLy(maQuanLy) ON DELETE CASCADE
+);
+
+CREATE TABLE ChiTietBaoCao (
+    maChiTiet INT AUTO_INCREMENT PRIMARY KEY,
+    maBaoCao INT,
+    maSach INT NULL,
+    maDocGia INT NULL,
+    maViPham INT NULL,
+    soLuong INT DEFAULT 1,
+    ghiChu TEXT CHARACTER SET UTF8MB4,
+    FOREIGN KEY (maBaoCao) REFERENCES BaoCaoThongKe(maBaoCao) ON DELETE CASCADE,
+    FOREIGN KEY (maSach) REFERENCES Sach(maSach) ON DELETE SET NULL,
+    FOREIGN KEY (maDocGia) REFERENCES DocGia(maDocGia) ON DELETE SET NULL,
+    FOREIGN KEY (maViPham) REFERENCES ViPham(maViPham) ON DELETE SET NULL
+);
 -- Thêm dữ liệu vào bảng TaiKhoan
-INSERT INTO TaiKhoan (tenDangNhap, matKhau, email, vaiTro) VALUES
-('admin', 'admin123', 'admin@gmail.com', 'QuanLy'),
-('thu_thu1', 'thuThu123', 'thuthu1@gmail.com', 'ThuThu'),
-('thu_thu2', 'thuThu456', 'thuthu2@gmail.com', 'ThuThu'),
-('doc_gia1', 'docGia123', 'docgia1@gmail.com', 'DocGia'),
-('doc_gia2', 'docGia456', 'docgia2@gmail.com', 'DocGia');
+INSERT INTO TaiKhoan (tenDangNhap, matKhau, email, vaiTro, trangThai) VALUES
+('admin', 'admin123', 'admin@example.com', 'QuanLy', 'Active'),
+('thuthu1', 'password123', 'thuthu1@example.com', 'ThuThu', 'Active'),
+('docgia1', 'pass123', 'docgia1@example.com', 'DocGia', 'Active');
 
+-- Thêm dữ liệu vào bảng QuanLy
+INSERT INTO QuanLy (maTaiKhoan, tenQuanLy, cccd, diaChi, sdt, namSinh, avatar) VALUES
+(1, 'Nguyen Van A', '123456789012', 'Ha Noi', '0987654321', '1980-01-01', 'avatar1.png');
 
-INSERT INTO QuanLy (maTaiKhoan, tenQuanLy, cccd, diaChi, sdt, email, namSinh, avatar) VALUES
-(1, 'Nguyễn Văn A', '012345678901', 'Hà Nội', '0987654321', 'admin@gmail.com', '1985-05-12', 'avatar1.jpg');
+-- Thêm dữ liệu vào bảng ThuThu
+INSERT INTO ThuThu (maTaiKhoan, tenThuThu, cccd, diaChi, sdt,namSinh, avatar) VALUES
+(2, 'Tran Thi B', '234567890123', 'Ho Chi Minh', '0976543210', '1990-05-15', 'avatar2.png');
 
-INSERT INTO ThuThu (maTaiKhoan, tenThuThu, cccd, diaChi, sdt, email, namSinh, avatar) VALUES
-(2, 'Lê Thị B', '123456789012', 'Hồ Chí Minh', '0912345678', 'thuthu1@gmail.com', '1990-02-14', 'avatar2.jpg'),
-(3, 'Phạm Văn C', '234567890123', 'Đà Nẵng', '0934567890', 'thuthu2@gmail.com', '1992-06-20', 'avatar3.jpg');
+-- Thêm dữ liệu vào bảng DocGia
+INSERT INTO DocGia (maTaiKhoan, tenDocGia, cccd, diaChi, namSinh, sdt, ngayGiaNhap, avatar, lockAccount) VALUES
+(3, 'Le Van C', '345678901234','Ho chi minh', '2000-08-22', '0965432109', '2023-01-10', 'avatar3.png', FALSE);
 
-INSERT INTO DocGia (maTaiKhoan, tenDocGia, cccd, namSinh, sdt, email, ngayGiaNhap, avatar, lockAccount) VALUES
-(4, 'Trần Minh D', '345678901234', '2000-07-08', '0961234567', 'docgia1@gmail.com', '2023-01-10', 'avatar4.jpg', FALSE),
-(5, 'Hoàng Anh E', '456789012345', '1998-09-15', '0976543210', 'docgia2@gmail.com', '2023-02-20', 'avatar5.jpg', FALSE);
-
+-- Thêm dữ liệu vào bảng TheLoai
 INSERT INTO TheLoai (tenTheLoai) VALUES
-('Khoa học viễn tưởng'),
-('Tiểu thuyết'),
-('Lịch sử'),
-('Tâm lý học');
+('Khoa học'),
+('Văn học'),
+('Kinh tế');
 
+-- Thêm dữ liệu vào bảng TrangThai
 INSERT INTO TrangThai (tenTrangThai) VALUES
-('Còn sách'),
-('Hết sách'),
+('Có sẵn'),
 ('Đang mượn'),
 ('Hư hỏng');
 
+-- Thêm dữ liệu vào bảng Khu
 INSERT INTO Khu (tenKhu, moTa) VALUES
-('A1', 'Khu vực sách khoa học viễn tưởng'),
-('B2', 'Khu vực tiểu thuyết'),
-('C3', 'Khu vực sách lịch sử'),
-('D4', 'Khu vực sách tâm lý học');
+('Khu A', 'Khu vực sách khoa học'),
+('Khu B', 'Khu vực sách văn học');
 
-INSERT INTO Sach (tenSach, tacGia, maTheLoai, ngayXuatBan, maTrangThai, soLuong, maKhu, image) VALUES
-('Dune', 'Frank Herbert', 1, '1965-08-01', 1, 5, 1, 'dune.jpg'),
-('1984', 'George Orwell', 2, '1949-06-08', 1, 3, 2, '1984.jpg'),
-('Sapiens', 'Yuval Noah Harari', 3, '2011-01-01', 1, 4, 3, 'sapiens.jpg'),
-('Tư duy nhanh và chậm', 'Daniel Kahneman', 4, '2011-10-25', 1, 2, 4, 'thinking_fast_and_slow.jpg');
+-- Thêm dữ liệu vào bảng Sach
+INSERT INTO Sach (tenSach, tacGia, maTheLoai, ngayXuatBan, maTrangThai, soLuong, gia, maKhu, image) 
+VALUES 
+('Sách Khoa Học 1', 'Tác giả A', 1, '2010-05-10', 1, 5, 20000.00, 1, 'sach1.png'),
+('Sách Văn Học 1', 'Tác giả B', 2, '2015-08-20', 1, 3, 10000.00, 2, 'sach2.png');
+-- Thêm dữ liệu vào bảng PhieuMuon
+INSERT INTO PhieuMuon (maThuThu, maDocGia, ngayMuon) VALUES
+(1, 1, '2025-03-01');
+
+-- Thêm dữ liệu vào bảng ChiTietPhieuMuon
+INSERT INTO ChiTietPhieuMuon (maPhieuMuon, maSach, soLuong) VALUES
+(1, 1, 1),
+(1, 2, 1);
+
+-- Thêm dữ liệu vào bảng PhieuTra
+INSERT INTO PhieuTra (maPhieuMuon, maThuThu, ngayTra, tongTien) VALUES
+(1, 1, '2025-03-10', 0);
+
+-- Thêm dữ liệu vào bảng ChiTietPhieuTra
+INSERT INTO ChiTietPhieuTra (maPhieuTra, maSach, soLuong, trangThaiSach, phiPhat) VALUES
+(1, 1, 1, 'BìnhThường', 0),
+(1, 2, 1, 'Trể hạn', 5000);
+
+-- Thêm dữ liệu vào bảng ViPham
+INSERT INTO ViPham (maDocGia, loaiViPham, ngayViPham) VALUES
+(1, 'Trả sách trễ hạn', '2025-03-10');
 
 -- Thêm dữ liệu vào bảng BaoCaoThongKe
-INSERT INTO BaoCaoThongKe (tenBaoCao, maQuanLy, noiDungThongKe, ngayLap) VALUES
-('Báo cáo sách mượn tháng 3', 1, 'Tổng số sách mượn: 10, Sách bị mất: 1, Trả trễ hạn: 2.', '2024-03-20'),
-('Báo cáo tình trạng sách', 1, 'Sách hư hỏng: 3, Sách đang được mượn: 5.', '2024-03-22'),
-('Báo cáo vi phạm độc giả', 1, 'Tổng số vi phạm: 2, Độc giả vi phạm: 2.', '2024-03-25');
+INSERT INTO BaoCaoThongKe (tenBaoCao, maQuanLy, loaiBaoCao, ngayBatDau, ngayKetThuc, soSachMuon, soSachTra, soSachHong, tongTienPhat) VALUES
+('Báo cáo tháng 3', 1, 'SachMuon', '2025-03-01', '2025-03-31', 2, 2, 0, 5000);
+
+-- Thêm dữ liệu vào bảng ChiTietBaoCao
+INSERT INTO ChiTietBaoCao (maBaoCao, maSach, maDocGia, maViPham, soLuong, ghiChu) VALUES
+(1, 1, 1, 1, 1, 'Trả sách trễ hạn 5 ngày');
+
+INSERT INTO ChiTietPhieuTra (maPhieuTra, maSach, soLuong, trangThaiSach, phiPhat)
+VALUES (4, 5, 1, 'Bình thường', 0), (4, 6, 2, 'Trể hẹn', 25000);
 
 
-INSERT INTO PhieuMuon (maThuThu, maDocGia, ngayMuon) VALUES
-(1, 1, '2024-03-01'),
-(2, 2, '2024-03-02');
+SHOW VARIABLES LIKE 'max_allowed_packet';
 
-INSERT INTO ChiTietPhieuMuon (maPhieu, maSach, soLuong) VALUES
-(1, 1, 1),  -- DocGia 1 mượn sách Dune
-(1, 2, 1),  -- DocGia 1 mượn sách 1984
-(2, 3, 1),  -- DocGia 2 mượn sách Sapiens
-(2, 4, 1);  -- DocGia 2 mượn sách Tư duy nhanh và chậm
-
-
-INSERT INTO PhieuTra (maPhieuMuon, maThuThu, maDocGia, ngayTra, tongTienPhat) VALUES
-(1, 1, 1, '2024-03-15', 50000),  -- DocGia 1 trả sách, có phạt 50k
-(2, 2, 2, '2024-03-16', 20000);  -- DocGia 2 trả sách, có phạt 20k
-
-INSERT INTO ChiTietPhieuTra (maPhieu, maSach, soLuong, trangThaiSach, phiPhat) VALUES
-(1, 1, 1, 'Hong', 50000),  -- Sách Dune bị hỏng, phạt 50k
-(1, 2, 1, 'BinhThuong', 0),  -- Sách 1984 bình thường
-(2, 3, 1, 'TreHan', 20000),  -- Sách Sapiens bị trễ hạn, phạt 20k
-(2, 4, 1, 'BinhThuong', 0);  -- Sách Tư duy nhanh và chậm bình thường
-
-
-INSERT INTO ViPham (maDocGia, loaiViPham, ngayViPham) VALUES
-(1, 'Làm hỏng sách Dune', '2024-03-15'),
-(2, 'Trả sách Sapiens trễ hạn', '2024-03-16');
-
+DESCRIBE ChiTietPhieuTra;
+SHOW COLUMNS FROM ChiTietPhieuTra LIKE 'trangThaiSach';
+INSERT INTO ChiTietPhieuTra (maPhieuTra, maSach, soLuong, trangThaiSach, phiPhat)
+VALUES (13, 1, 1, 'Bình thường', 0.00);

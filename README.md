@@ -41,6 +41,7 @@
 ## ⚙️ Hướng dẫn cài đặt và chạy ứng dụng
 
 1. **Clone repository:**
+
 git clone https://github.com/hungvo29122003/Library-Management-App.git  
 cd Library-Management-App
 2. **Mở dự án bằng Android Studio.**

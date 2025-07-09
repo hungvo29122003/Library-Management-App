@@ -44,6 +44,7 @@
 
 git clone https://github.com/hungvo29122003/Library-Management-App.git  
 cd Library-Management-App
+
 2. **Mở dự án bằng Android Studio.**
 
 3. **Cấu hình backend API:**  

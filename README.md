@@ -41,16 +41,15 @@
 ## ⚙️ Hướng dẫn cài đặt và chạy ứng dụng
 
 1. **Clone repository:**
-
 git clone https://github.com/hungvo29122003/Library-Management-App.git  
 cd Library-Management-App
-3. **Mở dự án bằng Android Studio.**
+2. **Mở dự án bằng Android Studio.**
 
-4. **Cấu hình backend API:**  
+3. **Cấu hình backend API:**  
    - Đảm bảo backend API (Library Management System Backend API) đang chạy và có thể truy cập được.  
    - Cập nhật URL API trong mã nguồn ứng dụng nếu cần (thường trong file cấu hình hoặc class quản lý API).
 
-5. **Chạy ứng dụng trên thiết bị Android hoặc giả lập.**
+4. **Chạy ứng dụng trên thiết bị Android hoặc giả lập.**
 
 ---
 

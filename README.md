@@ -17,14 +17,15 @@
 
 ## 💻 Công nghệ sử dụng
 
-![Kotlin](https://img.icons8.com/color/48/000000/kotlin.png) **Kotlin**  
-![Android](https://img.icons8.com/color/48/000000/android-os.png) **Android**  
-![Retrofit](https://img.icons8.com/ios-filled/48/000000/api.png) **Retrofit**  
-![Coroutines](https://img.icons8.com/ios-filled/48/000000/async.png) **Coroutines**  
-![Glide](https://img.icons8.com/ios-filled/48/000000/image.png) **Glide**  
-![Node.js](https://img.icons8.com/color/48/000000/nodejs.png) **Node.js** (backend)  
-![MySQL](https://img.icons8.com/color/48/000000/mysql-logo.png) **MySQL** (database)  
-![JWT](https://img.icons8.com/ios-filled/48/000000/json-web-token.png) **JWT** (xác thực)
+[![Kotlin](https://img.icons8.com/color/48/000000/kotlin.png)](https://kotlinlang.org/) **[Kotlin](https://kotlinlang.org/)**  
+[![Android](https://img.icons8.com/color/48/000000/android-os.png)](https://developer.android.com/) **[Android](https://developer.android.com/)**  
+[![Retrofit](https://img.icons8.com/ios-filled/48/000000/api.png)](https://square.github.io/retrofit/) **[Retrofit](https://square.github.io/retrofit/)**  
+[![Coroutines](https://img.icons8.com/ios-filled/48/000000/async.png)](https://kotlinlang.org/docs/coroutines-overview.html) **[Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)**  
+[![Glide](https://img.icons8.com/ios-filled/48/000000/image.png)](https://bumptech.github.io/glide/) **[Glide](https://bumptech.github.io/glide/)**  
+[![Node.js](https://img.icons8.com/color/48/000000/nodejs.png)](https://nodejs.org/) **[Node.js](https://nodejs.org/)** (backend)  
+[![MySQL](https://img.icons8.com/color/48/000000/mysql-logo.png)](https://www.mysql.com/) **[MySQL](https://www.mysql.com/)** (database)  
+[![JWT](https://img.icons8.com/ios-filled/48/000000/json-web-token.png)](https://jwt.io/) **[JWT](https://jwt.io/)** (xác thực)  
+
 
 ---
 
